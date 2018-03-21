@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}法律判决 Demo{% endblock %}
+{% block page_content %}
+
+<h9 style="color:#999999;"> *本智能系统根据审理过程和法院调查，生成相应的法律判决，以供法官使用。* </h9>
+
+{{ wtf.quick_form(form) }}
+<button id='random_button' class="btn btn-default" style="float: right;" onclick="var txtArea = document.getElementById('input_text');var xmlHttp = new XMLHttpRequest();url = '/random';xmlHttp.open('GET', url, false);xmlHttp.send(null);txtArea.value = xmlHttp.responseText;">
+        随机</button>
+<script>
+        fr = document.getElementsByClassName('form')[0]
+        bt = document.getElementById('random_button')
+        fr.appendChild(bt)
+</script>
+
+<br>
+
+<body >
+    <table style = "word-break:break-all; font-size:120%; width:100%">
+   
+        {%- if result_text|length > 0 -%}
+        <tr>
+            {%- if ground_truth|length > 0 -%}
+            <td style = "padding: 5px 10px 10px 10px; width:45%; background-color:#EEEEEE; border-right:50px solid #FFF;vertical-align:text-top;" >
+            <p>智能生成：</p>
+            </td>
+            {%- endif -%}
+
+            {%- if ground_truth|length == 0 -%}
+            <td style = "padding: 5px 10px 10px 10px; width:45%; background-color:#EEEEEE; border-right:1px solid #FFF;vertical-align:text-top;" >
+            <p>智能生成:</p>
+            </td>
+            {%- endif -%}
+            
+            {%- if ground_truth|length > 0 -%}
+            <td style = "padding: 10px 10px 0px 10px; width:45%; background-color:#EEEEEE; border-left:50px solid #FFF" >
+                <p>真实输出：</p>
+            </td>
+            {%- endif %}
+         </tr>
+
+        <tr>
+            {%- if ground_truth|length > 0 -%}
+            <td style = "padding: 5px 10px 10px 10px; width:45%; background-color:#EEEEEE; border-right:50px solid #FFF;vertical-align:text-top;" >
+            {{ result_text | safe}}
+            </td>
+            {%- endif -%}
+
+            {%- if ground_truth|length == 0 -%}
+            <td style = "padding: 5px 10px 10px 10px; width:45%; background-color:#EEEEEE; border-right:1px solid #FFF;vertical-align:text-top;" >
+            {{ result_text | safe}}
+            </td>
+            {%- endif -%}
+            
+            {%- if ground_truth|length > 0 -%}
+            <td style = "padding: 5px 10px 10px 10px; width:45%; background-color:#EEEEEE; border-left:50px solid #FFF;vertical-align:text-top;"  >
+            {{ ground_truth | safe}}
+            {%- endif %}
+            </td>
+         </tr>
+        {%- endif -%}
+    </table>
+    
+</body>
+
+<br /><br />
+{% endblock %}
